@@ -59,7 +59,8 @@ void* loop2(void *data)
 		//putchar(serialGetchar(fd));
 		//fflush(stdout);
 		int count = 0;
-		if(putchar(serialGetchar(fd)) == 'O')
+		int check = serialGetchar(fd);
+		if(check == 'O')
 		{
 			char tmp;
 			while(count<7)
