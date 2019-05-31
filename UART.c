@@ -12,6 +12,9 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int fd;
 
+char buffer[1024];
+int bcount = 0;
+
 void* loop1(void *data)
 {
 	/*
@@ -37,46 +40,33 @@ void* loop1(void *data)
 	sleep(5);
 	}
 }
-char buffer[72];
 
 void* loop2(void *data)
 {
-	/*
-	int i;
-	for (i =0; i< 10; i++)
-	{
-		//pthread_mutex_lock(&mutex);
-		printf("loop2 : %d\n", ncount);
-		ncount ++;
-		//pthread_mutex_unlock(&mutex);
-		//sleep(2);
-	}
-	*/
-	//int i = 0;
-
 	while(1)
 	{
-		//putchar(serialGetchar(fd));
-		//fflush(stdout);
-		int count = 0;
-		int check = serialGetchar(fd);
-		if(check == 'O')
+		if(serialGetchar(fd) == 'O')
 		{
-			char tmp;
-			while(count<7)
+			char tmp[7];
+			for(int i = 0; i < 7; i++)
 			{
-				tmp = serialGetchar (fd);
-				count++;
+				tmp[i] = serialGetchar(fd);
 			}
-			count = 0;
-			if(tmp == 'C')
-			{
-				for(int i = 0; i < 72; i++)
-				{
-					buffer[i] = serialGetchar(fd);
-				}
 
+			if((tmp[6] != 'E')&&(tmp[6] != 'S'))
+			{
+				for(int j = 0;serialDataAvail(fd) != -1; j++)
+				{
+					buffer[j] = serialGetchar(fd);
+					if(buffer[j] == ':') j--;
+					if(buffer[j] == '\n') break;
+				}
+				printf("line\n");
 				printf("%s",buffer);
+			}
+			else
+			{
+				printf("block\n");
 			}
 		}
 	}
