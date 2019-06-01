@@ -17,14 +17,45 @@ int bcount = 0;
 
 void* loop1(void *data)
 {
-	int i;
-	for(i =0; i<3; i++){
-	pthread_mutex_lock(&mutex);
-	char c[15] = "AT+DISI?\0";
+	char c[15] = "AT+RENEW\0";
 	serialPuts(fd, c);
 	serialPuts(fd, "\r\n");
-	pthread_mutex_unlock(&mutex);
 	sleep(5);
+
+	char c[15] = "AT+RESET\0";
+	serialPuts(fd, c);
+	serialPuts(fd, "\r\n");
+	sleep(5);
+
+	char c[15] = "AT+IBEA1\0";
+	serialPuts(fd, c);
+	serialPuts(fd, "\r\n");
+	sleep(5);
+
+	char c[15] = "AT+MODE2\0";
+	serialPuts(fd, c);
+	serialPuts(fd, "\r\n");
+	sleep(5);
+
+	char c[15] = "AT+ROLE1\0";
+	serialPuts(fd, c);
+	serialPuts(fd, "\r\n");
+	sleep(5);
+
+	char c[15] = "AT+IMM1\0";
+	serialPuts(fd, c);
+	serialPuts(fd, "\r\n");
+	sleep(5);
+
+	int i;
+	for(i =0; i<3; i++)
+	{
+		pthread_mutex_lock(&mutex);
+		char c[15] = "AT+DISI?\0";
+		serialPuts(fd, c);
+		serialPuts(fd, "\r\n");
+		pthread_mutex_unlock(&mutex);
+		sleep(5);
 	}
 }
 
@@ -32,6 +63,7 @@ void* loop2(void *data)
 {
 	while(1)
 	{
+		/*
 		if(serialGetchar(fd) == 'O')
 		{
 			char tmp[7];
@@ -55,6 +87,10 @@ void* loop2(void *data)
 				printf("block\n");
 			}
 		}
+		*/
+
+		putchar (serialGetchar (fd));
+		fflush(stdout);
 	}
 
 }
