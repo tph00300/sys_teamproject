@@ -1,9 +1,15 @@
+/*
+** gas_device.c 
+** wrtten by KimSeongHeon in 19/06/01
+** based on gasTest.c  
+*/
+
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
-#include <linux/fs.h> // 파일시스템 사용
-#include <linux/uaccess.h> // copy_to_user 이용
-#include <linux/slab.h> // kmaloc() 사용
+#include <linux/fs.h> // for fileSystem
+#include <linux/uaccess.h> // for copy_to_user
+#include <linux/slab.h> // for kmaloc()
 #include <linux/gpio.h>
 
 #define GPIO23 23
@@ -22,18 +28,6 @@ int gas_device_release(struct inode *inode, struct file *filp)
 	printk(KERN_ALERT "gas_device release function called\n");
 	return 0;
 }
-
-/*
-ssize_t buzzer_device_write(struct file *filp, const char *buf, size_t count, loff_t *f_pos)
-{
-	int data = 0;
-	copy_from_user(&data, buf, count);
-	bcm2835_pwm_set_data(PWM_CHANNEL, data);
-	printk(KERN_INFO "write the data %d to kernel\n", data);
-
-	return count;
-}
-*/
 
 ssize_t gas_device_read(struct file *filp, char *buf, size_t count, loff_t *f_pos)
 {
@@ -73,7 +67,7 @@ long gas_ioctl(struct file * filp, unsigned int cmd, unsigned long arg)
 		case IOCTL_GAS_READ:
 			value = gpio_get_value(GPIO23);
 			copy_to_user((int*)arg, &value, sizeof(int));
-			printk(KERN_INFO "read the output of device %d from kernel\n", value);
+			printk(KERN_INFO "read the output of device (value : %d) from kernel\n", value);
 			break;
 	}
 
@@ -82,8 +76,8 @@ long gas_ioctl(struct file * filp, unsigned int cmd, unsigned long arg)
 
 static struct  file_operations fops =
 {
+	.unlocked_ioctl = gas_ioctl,
 	.read = gas_device_read,
-	//.write = buzzer_device_write,
 	.open = gas_device_open,
 	.release = gas_device_release
 };

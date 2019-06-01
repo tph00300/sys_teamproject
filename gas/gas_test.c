@@ -1,3 +1,9 @@
+/*
+** gas_test.c 
+** wrtten by KimSeongHeon in 19/05/31
+** based on gasTest.c  
+*/
+
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -9,8 +15,8 @@
 #define IOCTL_MAGIC_NUMBER 'k'
 #define IOCTL_GAS_READ  _IOR(IOCTL_MAGIC_NUMBER, 0, unsigned int)
 
-#define GAS_IDLE    1
-#define GAS_RELEASE 0
+#define GAS_IDLE    0
+#define GAS_RELEASE 1
 
 int main (void)
 {
@@ -19,12 +25,12 @@ int main (void)
     int gas_status;
     while(1)
     {
-        read(gas_fd, &gas_status, sizeof(int));
-        printf("gas : %d\n", gas_status);
-
-        //ioctl(gas_fd, IOCTL_GAS_READ, &gas_status);
+        //read(gas_fd, &gas_status, sizeof(int));
         //printf("gas : %d\n", gas_status);
 
-	sleep(1);
+        ioctl(gas_fd, IOCTL_GAS_READ, &gas_status);
+        printf("gas : %d\n", gas_status);
+
+        sleep(1);
     }
 }

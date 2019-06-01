@@ -16,7 +16,6 @@
 /*
 ** setup function to use wiringPi and wiringPISPI
 ** in success case it will return 0 
-**
 */
 int init_MCP3008 (void)
 {
@@ -34,13 +33,13 @@ int init_MCP3008 (void)
 /*
 ** read flame sensor's analog signal using 'read_MCP3008' function
 ** return 'flame_adcValue' which is calculated digital signal
+** 1 = NO flame , 0 = YES flame
 ** use this function will be used in main program with while(1) to check flame signal consistently
 */
 int read_flame(unsigned char adcChannel) 
 {
 	int flame_adcValue = read_MCP3008(adcChannel)*3.3/1024;
 	// printf("adc0 Value = %u\n", adcValue);
-	sleep(1);
 
 	return flame_adcValue;
 }

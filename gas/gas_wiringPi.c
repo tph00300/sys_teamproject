@@ -1,3 +1,9 @@
+/*
+** gas_test.c 
+** wrtten by 양승환 in 19/05/20
+** based on gasTest.c  
+*/
+
 #include <stdio.h>
 #include <wiringPi.h>
 
