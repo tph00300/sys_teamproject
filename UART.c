@@ -17,19 +17,6 @@ int bcount = 0;
 
 void* loop1(void *data)
 {
-	/*
-	int i;
-	pthread_mutex_lock(&mutex);
-	for (i =0; i< 10; i++)
-	{
-		//pthread_mutex_lock(&mutex);
-		printf("loop1 : %d\n", ncount);
-		ncount ++;
-		//if(i ==10){pthread_mutex_unlock(&mutex);}
-		//sleep(1);
-	}
-	pthread_mutex_unlock(&mutex);
-	*/
 	int i;
 	for(i =0; i<3; i++){
 	pthread_mutex_lock(&mutex);
@@ -48,7 +35,7 @@ void* loop2(void *data)
 		if(serialGetchar(fd) == 'O')
 		{
 			char tmp[7];
-			for(int i = 0; i < 7; i++)
+			for(int i = 0; (i < 7)&&(serialDataAvail(fd) != -1); i++)
 			{
 				tmp[i] = serialGetchar(fd);
 			}
@@ -57,8 +44,7 @@ void* loop2(void *data)
 			{
 				for(int j = 0;serialDataAvail(fd) != -1; j++)
 				{
-					buffer[j] = serialGetchar(fd);
-					if(buffer[j] == ':') j--;
+					buffer[j] = serialGetchar(fd);			
 					if(buffer[j] == '\n') break;
 				}
 				printf("line\n");

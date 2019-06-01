@@ -16,7 +16,7 @@ int main (int argc, char **argv) {
 	int direction = 1;
 	int data = 1;
 	while (1) {
-		data = 0;
+		data = 262;
 		bcm2835_pwm_set_data(PWM_CHANNEL,data);
 		//bcm2835_delay(50);
 	}
