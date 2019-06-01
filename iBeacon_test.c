@@ -14,10 +14,12 @@ int fd;
 
 char buffer[1024];
 int bcount = 0;
+char TxPower[3];
+char RSSI[4];
 
 void* loop1(void *data)
 {
-			
+	// initialize 'HM-10'		
 	printf("AT+RENEW\n"); // Factoy reset
 	serialPuts(fd, "AT+RENEW\0");
 	serialPuts(fd, "\r\n");
@@ -38,17 +40,18 @@ void* loop1(void *data)
 	serialPuts(fd, "\r\n");
 	sleep(2);
 
-	printf("AT+MODE2\n"); // Remote Control Mode (it can use AT command after pairing)
+	printf("AT+MODE2\n"); // Set device as 'remote control code' (it can use AT command after pairing)
 	serialPuts(fd, "AT+MODE2\0");
 	serialPuts(fd, "\r\n");
 	sleep(2);
 
-	printf("AT+ROLE1\n");
+	// set and check ROLE1 and IMME1 to use AT+DISI? command
+	printf("AT+ROLE1\n"); // Set Device as 'Central'
 	serialPuts(fd, "AT+ROLE1\0");
 	serialPuts(fd, "\r\n");
 	sleep(2);
 
-	printf("AT+IMME1\n");
+	printf("AT+IMME1\n"); // Set operation type as 'Not immedately' 
 	serialPuts(fd, "AT+IMME1\0");
 	serialPuts(fd, "\r\n");
 	sleep(2);
@@ -73,27 +76,13 @@ void* loop1(void *data)
 		pthread_mutex_unlock(&mutex);
 		sleep(5);
 	}
-	
-
-	/*
-	for(int i =0; i<3; i++)
-	{
-		pthread_mutex_lock(&mutex);
-		//char c[15] = "AT\0";
-		//serialPuts(fd, c);
-		serialPuts(fd,"AT\0");
-		serialPuts(fd, "\r\n");
-		pthread_mutex_unlock(&mutex);
-		sleep(5);
-	}
-	*/
 }
 
 void* loop2(void *data)
 {
 	while(1)
 	{
-		/*
+		
 		if(serialGetchar(fd) == 'O')
 		{
 			char tmp[7];
@@ -102,7 +91,8 @@ void* loop2(void *data)
 				tmp[i] = serialGetchar(fd);
 			}
 
-			if((tmp[6] != 'E')&&(tmp[6] != 'S'))
+			//if((tmp[6] != 'E')&&(tmp[6] != 'S'))
+			if(tmp[6] == ':')
 			{
 				for(int j = 0;serialDataAvail(fd) != -1; j++)
 				{
@@ -111,16 +101,25 @@ void* loop2(void *data)
 				}
 				printf("line\n");
 				printf("%s",buffer);
+				
+				TxPower[0] = buffer[50]; 
+				TxPower[1] = buffer[51];
+
+				RSSI[0] = buffer[67];
+				RSSI[1] = buffer[68];
+				RSSI[2] = buffer[69];
+
+				printf("TxPower: %s, RSSI: %s\n",TxPower, RSSI);
 			}
 			else
 			{
 				printf("block\n");
 			}
 		}
-		*/
+		
 
-		putchar (serialGetchar (fd));
-		fflush(stdout);
+		//putchar (serialGetchar (fd));
+		//fflush(stdout);
 	}
 
 }
