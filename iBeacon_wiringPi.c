@@ -26,19 +26,19 @@ int main ()
        	}
 
 	//int i = 0;
-	//while(1)
-	//{
-		//char s[10];
-	       	//scanf("%s",s);
-		//serialPuts (fd,s);
-		//serialPuts (fd,"\r\n");
+	while(1)
+	{
+		char s[10];
+	       	scanf("%s",s);
+		serialPuts (fd,s);
+		serialPuts (fd,"\r\n");
 
 		//printf("input : %s\n",s);
 		
-		char c[15] = "AT+DISI?\0"; // \0 없으면 입력값 전송 안됨
+		//char c[15] = "AT+DISI?\0"; // \0 없으면 입력값 전송 안됨
 	       	//scanf("%s",c);
-		serialPuts (fd,c);
-		serialPuts (fd,"\r\n"); // 없으면 개행 없는 응답
+		//serialPuts (fd,c);
+		//serialPuts (fd,"\r\n"); // 없으면 개행 없는 응답
 
 		//printf("input : %s\n",c);
 
@@ -53,7 +53,7 @@ int main ()
 	       	}
 		
 
-	//}
+	}
 	
 	return 0 ;
 }

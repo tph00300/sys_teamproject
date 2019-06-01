@@ -17,46 +17,76 @@ int bcount = 0;
 
 void* loop1(void *data)
 {
-	char c[15] = "AT+RENEW\0";
-	serialPuts(fd, c);
+			
+	printf("AT+RENEW\n"); // Factoy reset
+	serialPuts(fd, "AT+RENEW\0");
 	serialPuts(fd, "\r\n");
-	sleep(5);
+	sleep(2);
 
-	char c[15] = "AT+RESET\0";
-	serialPuts(fd, c);
+	printf("AT+RESET\n"); // Reboot
+	serialPuts(fd, "AT+RESET\0");
 	serialPuts(fd, "\r\n");
-	sleep(5);
+	sleep(2);
 
-	char c[15] = "AT+IBEA1\0";
-	serialPuts(fd, c);
+	printf("AT\n"); // waiting OK mesg
+	serialPuts(fd, "AT\0");
 	serialPuts(fd, "\r\n");
-	sleep(5);
+	sleep(2);
 
-	char c[15] = "AT+MODE2\0";
-	serialPuts(fd, c);
+	printf("AT+IBEA1\n"); // iBeacon mode
+	serialPuts(fd, "AT+IBEA1\0");
 	serialPuts(fd, "\r\n");
-	sleep(5);
+	sleep(2);
 
-	char c[15] = "AT+ROLE1\0";
-	serialPuts(fd, c);
+	printf("AT+MODE2\n"); // Remote Control Mode (it can use AT command after pairing)
+	serialPuts(fd, "AT+MODE2\0");
 	serialPuts(fd, "\r\n");
-	sleep(5);
+	sleep(2);
 
-	char c[15] = "AT+IMM1\0";
-	serialPuts(fd, c);
+	printf("AT+ROLE1\n");
+	serialPuts(fd, "AT+ROLE1\0");
 	serialPuts(fd, "\r\n");
-	sleep(5);
+	sleep(2);
 
-	int i;
-	for(i =0; i<3; i++)
+	printf("AT+IMME1\n");
+	serialPuts(fd, "AT+IMME1\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+	
+	printf("AT+IMME?\n");
+	serialPuts(fd, "AT+IMME?\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+	
+	printf("AT+ROLE?\n");
+	serialPuts(fd, "AT+ROLE?\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+
+	for(int i =0; i<3; i++)
 	{
+		printf("FOR LOOP\n");
 		pthread_mutex_lock(&mutex);
-		char c[15] = "AT+DISI?\0";
-		serialPuts(fd, c);
+		//char c[15] = "AT+DISI?\0";
+		serialPuts(fd, "AT+DISI?\0");
 		serialPuts(fd, "\r\n");
 		pthread_mutex_unlock(&mutex);
 		sleep(5);
 	}
+	
+
+	/*
+	for(int i =0; i<3; i++)
+	{
+		pthread_mutex_lock(&mutex);
+		//char c[15] = "AT\0";
+		//serialPuts(fd, c);
+		serialPuts(fd,"AT\0");
+		serialPuts(fd, "\r\n");
+		pthread_mutex_unlock(&mutex);
+		sleep(5);
+	}
+	*/
 }
 
 void* loop2(void *data)
