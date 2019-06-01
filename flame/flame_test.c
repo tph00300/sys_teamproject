@@ -1,3 +1,8 @@
+/*
+** flame_test.c 
+** wrtten by KimSeongHeon in 19/05/31
+*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <wiringPi.h>
@@ -13,12 +18,6 @@ int read_MCP3008(unsigned char adcChannel)
 	unsigned char buff[3];
 	int adcValue = 0;
 
-	/*
-	buff[0] = 0x06 | ((adcChannel & 0x07) >> 7);
-	buff[1] = ((adcChannel & 0x07) << 6);
-	buff[2] = 0x00;
-	*/
-
 	buff[0] = 1;
 	buff[1] = (8+adcChannel)<<4;
 	buff[2] = 0;
@@ -28,7 +27,6 @@ int read_MCP3008(unsigned char adcChannel)
 	wiringPiSPIDataRW(SPI_CHANNEL, buff, 3);
 
 	buff[1] = 0x0F & buff[1];
-	//adcValue = (buff[1] << 8) | buff[2];
 	adcValue = ((buff[1]&3) << 8) + buff[2];
 	
 	digitalWrite(CS_MCP3008, 1);
@@ -48,7 +46,6 @@ int main (void)
 
 	while(1)
 	{
-		//adcValue = read(adcChannel);
 		adcValue = read_MCP3008(0)*3.3/1024;
 		printf("adc0 Value = %u\n", adcValue);
 		sleep(1);

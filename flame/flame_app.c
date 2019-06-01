@@ -1,7 +1,7 @@
 /*
-** flameAPP.c 
+** flame_app.c 
 ** wrtten by KimSeongHeon in 19/06/01
-** based on flameTest.c  
+** based on flame_test.c  
 */
 
 #include <stdio.h>
