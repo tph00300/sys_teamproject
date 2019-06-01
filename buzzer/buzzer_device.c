@@ -26,7 +26,7 @@ ktime_t ktime_h, ktime_l;
 static struct hrtimer hr_timer;
 int state;
 int run;
-char msg = 1024;
+char msg[1024];
 
 enum hrtimer_restart my_hrtimer_callback(struct hrtimer *timer) {
     gpio_set_value(pin, state ^= 1);
@@ -56,12 +56,12 @@ void set_sound_hz(int x) {
     ktime_l = ktime_set(0, 3 * x * 1000);
 }
 
-int tsensor_dev_open(struct inode *pinode, struct file *pfile){
+int tsensor_dev_open(struct inode *inode, struct file *filp){
     printk("Open tsensor drv\n");
     return 0;
 }
 
-int tsensor_dev_close(struct inode *pinode, struct file *pfile){
+int tsensor_dev_close(struct inode *inode, struct file *filp){
     printk("Close tsensor drv\n");
     return 0;
 }
