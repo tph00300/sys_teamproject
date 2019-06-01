@@ -16,13 +16,15 @@ int main (void)
 {
     int gas_fd = open("/dev/gas_device", O_RDONLY);
 
-    int gas_status = GAS_IDLE;
+    int gas_status;
     while(1)
     {
-        //read(gas_fd, &gas_status, sizeof(int));
-        //printf("gas : %d", gas_status);
+        read(gas_fd, &gas_status, sizeof(int));
+        printf("gas : %d\n", gas_status);
 
-        ioctl(gas_fd, IOCTL_GAS_READ, &gas_status);
-        printf("gas : %d", gas_status);
+        //ioctl(gas_fd, IOCTL_GAS_READ, &gas_status);
+        //printf("gas : %d\n", gas_status);
+
+	sleep(1);
     }
 }

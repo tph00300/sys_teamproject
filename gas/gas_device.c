@@ -4,6 +4,7 @@
 #include <linux/fs.h> // 파일시스템 사용
 #include <linux/uaccess.h> // copy_to_user 이용
 #include <linux/slab.h> // kmaloc() 사용
+#include <linux/gpio.h>
 
 #define GPIO23 23
 
@@ -37,8 +38,13 @@ ssize_t buzzer_device_write(struct file *filp, const char *buf, size_t count, lo
 ssize_t gas_device_read(struct file *filp, char *buf, size_t count, loff_t *f_pos)
 {
 	int value = gpio_get_value(GPIO23);
-	printk(KERN_INFO "read the output of device %d from kernel\n", value);
-	copy_to_user(buf, &value, sizeof(int));
+	printk(KERN_INFO "read the output of device (value : %d) from kernel\n", value);
+	int check = copy_to_user(buf, &value, sizeof(int));
+
+	if(check != 0)
+	{
+		printk(KERN_INFO "copy_to_user ERR\n");
+	}
 	return count;
 }
 
@@ -52,13 +58,14 @@ long gas_ioctl(struct file * filp, unsigned int cmd, unsigned long arg)
 	If(_IOC_NR(cmd) >= IOCTL_MAXNR) return -EINVAL;
 	if( size )
 	{
-       err = -EFAULT;
-       if( _IOC_DIR( cmd ) & _IOC_READ  )
-                err = !access_ok( VERIFY_WRITE, (void __user *) arg, size );
-       else if( _IOC_DIR( cmd ) & _IOC_WRITE )
-                err = !access_ok( VERIFY_READ , (void __user *) arg, size );
-       if( err ) return err;
-    }
+      		err = -EFAULT;
+       		if( _IOC_DIR( cmd ) & _IOC_READ  )
+                	err = !access_ok( VERIFY_WRITE, (void __user *) arg, size );
+       		else if( _IOC_DIR( cmd ) & _IOC_WRITE )
+                	err = !access_ok( VERIFY_READ , (void __user *) arg, size );
+       		
+		if( err ) return err;
+    	}
 	*/
 
 	switch(cmd)
@@ -73,37 +80,31 @@ long gas_ioctl(struct file * filp, unsigned int cmd, unsigned long arg)
 	return 0;
 }
 
-static struct  file_operations sys_fops =
+static struct  file_operations fops =
 {
-	.read = buzzer_device_read,
+	.read = gas_device_read,
 	//.write = buzzer_device_write,
-	.open = buzzer_device_open,
-	.release = buzzer_device_release
+	.open = gas_device_open,
+	.release = gas_device_release
 };
 
 int __init gas_device_init(void)
 {
-	if(register_chrdev(240, "gas_device", &sys_fops) < 0)
-		printk(KERN_ALERT "gas_device init failed\n");
-	else
-	{
-		printk(KERN_ALERT "gas_device init successful\n");
-		if(!bcm2835_init())
-		{
-			printk(KERN_ALERT "gas_device init successful\n");
-			return 1;
-		}
+	printk(KERN_INFO "gas_device init module\n");
 
-		bcm2835_gpio_fsel(PIN_PWM,BCM2835_GPIO_FSEL_ALT5);
-		bcm2835_pwm_set_clock(BCM2835_PWM_CLOCK_DIVIDER_16);
-		bcm2835_pwm_set_mode(PWM_CHANNEL,1,1);
-		bcm2835_pwm_set_range(0,RANGE);
-	}
+	register_chrdev(240,"gas_device", &fops);
+
+	gpio_request(GPIO23, "GPIO23");
+	gpio_direction_input(GPIO23);
+
+	printk(KERN_INFO "gas_device init module complete\n");
+
 	return 0;
 }
 
-void __exit buzzer_device_exit(void)
+void __exit gas_device_exit(void)
 {
+	gpio_free(GPIO23);
 	unregister_chrdev(240, "gas_device");
 	printk(KERN_ALERT "gas_device cleanup successful\n");
 }
