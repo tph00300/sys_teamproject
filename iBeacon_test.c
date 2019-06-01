@@ -12,8 +12,8 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int fd;
 
-char buffer[1024];
-int bcount = 0;
+char buffer[100];
+
 char TxPower[3];
 char RSSI[4];
 
@@ -70,7 +70,6 @@ void* loop1(void *data)
 	{
 		printf("FOR LOOP\n");
 		pthread_mutex_lock(&mutex);
-		//char c[15] = "AT+DISI?\0";
 		serialPuts(fd, "AT+DISI?\0");
 		serialPuts(fd, "\r\n");
 		pthread_mutex_unlock(&mutex);
@@ -110,6 +109,7 @@ void* loop2(void *data)
 				RSSI[2] = buffer[69];
 
 				printf("TxPower: %s, RSSI: %s\n",TxPower, RSSI);
+				calc_dist(TxPower, RSSI);
 			}
 			else
 			{
@@ -122,6 +122,15 @@ void* loop2(void *data)
 		//fflush(stdout);
 	}
 
+}
+
+void calc_dist (char* TxPower, char* RSSI)
+{
+	char *end;
+	int tx = strtol(TxPower, &end, 10);
+	int rs = strtol(RSSI, &end, 10);
+
+	printf("tx = %d, rs= %d\n", tx,rs);
 }
 
 int main()
