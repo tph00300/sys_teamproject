@@ -14,7 +14,7 @@
 #define MY_T_SENSOR 100
 #define MY_T_SENSOR_READ _IOW( MY_T_SENSOR, 1, int )
 
-MODULE_LICENSE("Dual BSD/GPL");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("guithin(JinwonJung)");
 
 struct cdev my_cdev;
@@ -26,7 +26,7 @@ ktime_t ktime_h, ktime_l;
 static struct hrtimer hr_timer;
 int state;
 int run;
-char *msg;
+char msg = 1024;
 
 enum hrtimer_restart my_hrtimer_callback(struct hrtimer *timer) {
     gpio_set_value(pin, state ^= 1);
@@ -126,7 +126,7 @@ int __init tsensor_init(void){
     if(gpio_request(pin, "TSENSOR_PIN") < 0){
         printk("gpio_request fail\n");
     }
-    msg = (char *)kmalloc(32, GFP_KERNEL);
+    //msg = (char *)kmalloc(32, GFP_KERNEL);
 
     gpio_direction_output(pin, 0);
     timer_init();
@@ -135,7 +135,7 @@ int __init tsensor_init(void){
 
 void __exit tsensor_exit(void){
     printk("EXIT tsensor module\n");
-    if (msg) kfree(msg);
+    //if (msg) kfree(msg);
     gpio_free(pin);
     cdev_del(&my_cdev);
 }
