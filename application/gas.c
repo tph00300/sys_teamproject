@@ -12,6 +12,8 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
+#include "gas.h"
+
 #define IOCTL_MAGIC_NUMBER 'H'
 #define IOCTL_GAS_READ  _IOR(IOCTL_MAGIC_NUMBER, 0, unsigned int)
 

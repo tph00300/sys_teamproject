@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 simpleMain : buzzer.o flame.o gas.o led.o main.o
-=======
-simpleMain : buzzer.o flame.o gas.o main.o
->>>>>>> f269bcf199179a62ef37a78ad03ccd8d514a20bf
 	gcc -o simpleMain buzzer.o flame.o gas.o led.o main.o -lwiringPi
 
 buzzer.o : buzzer.c
