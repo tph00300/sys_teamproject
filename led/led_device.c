@@ -37,7 +37,7 @@ struct file_operations fops = {
 static int __init led_init(void){
 	printk(KERN_INFO "LED : Starting ...\n");
 	
-	register_chrdev(240, "led_dev", &fops);
+	register_chrdev(240, "led_device", &fops);
 	
 	gpio_request(A2, "A2");
 	gpio_direction_output(A2, LOW);
@@ -50,7 +50,7 @@ static int __init led_init(void){
 static void __exit led_exit(void){
 		gpio_free(A2);
 		
-		unregister_chrdev(240, "led_dev");
+		unregister_chrdev(240, "led_device");
 		
 		printk(KERN_INFO "LED : Exit Done");
 }

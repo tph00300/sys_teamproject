@@ -11,7 +11,7 @@
 
 void led_one()
 {
-   int fd = open("/dev/led_dev", O_RDWR);
+   int fd = open("/dev/led_device", O_RDWR);
    int mass = 0;
    
    while(1){
@@ -39,7 +39,7 @@ void led_one()
 
 int main () {
 	
-	led_one()
+	led_one();
 	
 	return 0;
 	
