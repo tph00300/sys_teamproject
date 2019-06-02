@@ -88,12 +88,13 @@ void start_led()
 }
 
 char string[8] = "0 1\n"; // NO FIRE
-int check[3] = [0, 0, 0] // loop1 X, loop3 X, loop4 X
+int check[3] = {0, 0, 0}; // loop1 X, loop3 X, loop4 X
 
 void* loop1(void *data) // flame, gas
 {
-	int check1 =start_flame()
-	start_gas()
+	start_flame();
+	start_gas();
+	
 	int flame_result = 1;
 	int gas_result = 0;
 
@@ -103,18 +104,23 @@ void* loop1(void *data) // flame, gas
 		//printf("flame result : %d\n", flame_result);
 		
 		//gas_result = read_gas();
-		//printf("gas result : %d\n", gas_result);
+		printf("gas result : %d\n", gas_result);
 
 		if(flame_result == 0 || gas_result == 1)
 		{
 			string[2] = '0';
 			check[0] = 1; // loop 1 want to write
+			
+			printf("string : %s\n", string);
 
 			start_buzzer();
 			start_led();
+
+			break;
 		}
 	}
 
+	printf("ENDWHILE\n");
 	/*
 
 		pthread_mutex_lock(&mutex);

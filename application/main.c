@@ -10,7 +10,7 @@ int main ()
 {
 
 	// check buzzer
-	/*printf("check buzzer\n");
+	printf("check buzzer\n");
 	printf("init_buzzer\n");
 	int check = init_buzzer();
 
@@ -63,7 +63,7 @@ int main ()
 		printf("flame result : %d\n", result);
 	}
 
-
+	/*
 	//check gas
 	printf("check gas\n");
 	printf("init_gas\n");
@@ -82,7 +82,7 @@ int main ()
 	}
 
 	close_gas();
-
+	*/
 	//check led
 	printf("check led\n");
 	printf("init_led");
@@ -102,7 +102,7 @@ int main ()
 	sleep(2);
 	off_led();
 	sleep(2);
-	*/
+	
 	printf("check pir\n");
 	printf("init pir\n");
 	int check=init_pir();

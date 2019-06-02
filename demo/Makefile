@@ -1,4 +1,4 @@
-demo : buzzer.o flame.o gas.o led.o main.o pir.o
+demo : buzzer.o flame.o gas.o led.o pir.o demo.o
 	gcc -o demo buzzer.o flame.o gas.o led.o pir.o demo.o -lwiringPi -lpthread
 
 buzzer.o : buzzer.c

@@ -1,6 +1,9 @@
+#include <linux/build-salt.h>
 #include <linux/module.h>
 #include <linux/vermagic.h>
 #include <linux/compiler.h>
+
+BUILD_SALT;
 
 MODULE_INFO(vermagic, VERMAGIC_STRING);
 MODULE_INFO(name, KBUILD_MODNAME);
@@ -22,23 +25,25 @@ MODULE_INFO(retpoline, "Y");
 static const struct modversion_info ____versions[]
 __used
 __attribute__((section("__versions"))) = {
-	{ 0x367398b6, __VMLINUX_SYMBOL_STR(module_layout) },
-	{ 0x1a96fe1c, __VMLINUX_SYMBOL_STR(cdev_del) },
-	{ 0xfe990052, __VMLINUX_SYMBOL_STR(gpio_free) },
-	{ 0xe145495b, __VMLINUX_SYMBOL_STR(gpiod_direction_input) },
-	{ 0x47229b5c, __VMLINUX_SYMBOL_STR(gpio_request) },
-	{ 0x12d86225, __VMLINUX_SYMBOL_STR(cdev_add) },
-	{ 0xede71573, __VMLINUX_SYMBOL_STR(cdev_init) },
-	{ 0x29537c9e, __VMLINUX_SYMBOL_STR(alloc_chrdev_region) },
-	{ 0x1e047854, __VMLINUX_SYMBOL_STR(warn_slowpath_fmt) },
-	{ 0xf4fa543b, __VMLINUX_SYMBOL_STR(arm_copy_to_user) },
-	{ 0x97255bdf, __VMLINUX_SYMBOL_STR(strlen) },
-	{ 0x91715312, __VMLINUX_SYMBOL_STR(sprintf) },
-	{ 0xe0dc9a18, __VMLINUX_SYMBOL_STR(gpiod_get_raw_value) },
-	{ 0x3ee15874, __VMLINUX_SYMBOL_STR(gpio_to_desc) },
-	{ 0x2e5810c6, __VMLINUX_SYMBOL_STR(__aeabi_unwind_cpp_pr1) },
-	{ 0x27e1a049, __VMLINUX_SYMBOL_STR(printk) },
-	{ 0xb1ad28e0, __VMLINUX_SYMBOL_STR(__gnu_mcount_nc) },
+	{ 0x3f584fcd, "module_layout" },
+	{ 0x63af6b36, "cdev_del" },
+	{ 0xfe990052, "gpio_free" },
+	{ 0x8987853, "gpiod_direction_input" },
+	{ 0x47229b5c, "gpio_request" },
+	{ 0x8d8ddebf, "cdev_add" },
+	{ 0x2ace0730, "cdev_init" },
+	{ 0xe3ec2f2b, "alloc_chrdev_region" },
+	{ 0x1e047854, "warn_slowpath_fmt" },
+	{ 0xdb7305a1, "__stack_chk_fail" },
+	{ 0xf4fa543b, "arm_copy_to_user" },
+	{ 0x97255bdf, "strlen" },
+	{ 0x91715312, "sprintf" },
+	{ 0x1d855df9, "gpiod_get_raw_value" },
+	{ 0x2a941df5, "gpio_to_desc" },
+	{ 0x8f678b07, "__stack_chk_guard" },
+	{ 0x2e5810c6, "__aeabi_unwind_cpp_pr1" },
+	{ 0x7c32d0f0, "printk" },
+	{ 0xb1ad28e0, "__gnu_mcount_nc" },
 };
 
 static const char __module_depends[]
