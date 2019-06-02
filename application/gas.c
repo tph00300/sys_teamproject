@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-#define IOCTL_MAGIC_NUMBER 'k'
+#define IOCTL_MAGIC_NUMBER 'H'
 #define IOCTL_GAS_READ  _IOR(IOCTL_MAGIC_NUMBER, 0, unsigned int)
 
 #define GAS_IDLE    0

@@ -86,9 +86,13 @@ void calc_dist (char* TxPower, char* RSSI)
 	int rs = strtol(RSSI, &end, 10);
 	rs *= -1;
 
-	int dist = 10^((tx-rs)/(10*2));
+	//int dist = 10^((tx-rs)/(10*2));
 
-	printf("tx = %d, rs= %d dist= %d\n", tx,rs,dist);
+	double D = 0;
+	int n=2;
+
+	double dist= pow(10,((tx-rs)/(20)));
+	printf("tx = %d, rs= %d dist= %.8f\n", tx,rs,dist);
 
 }
 

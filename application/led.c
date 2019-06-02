@@ -9,13 +9,13 @@
 #define IOCTL_LED_ON		_IO(IOCTL_MAGIC_NUMBER, 0)
 #define IOCTL_LED_OFF		_IO(IOCTL_MAGIC_NUMBER, 1)
 
-int fd;
+int led_fd;
 
 void init_led ()
 {
-	fd = open("/dev/led_device", O_RDWR);
+	led_fd = open("/dev/led_device", O_RDWR);
 
-	if(fd < 0)
+	if(led_fd < 0)
 	{
 		return -1
 	}
@@ -24,15 +24,15 @@ void init_led ()
 
 void close_led()
 {
-	close(fd);
+	close(led_fd);
 }
 
 void on_led()
 {
-	ioctl(fd, IOCTL_LED_ON, 0);
+	ioctl(led_fd, IOCTL_LED_ON, 0);
 }
 
 void off_led()
 {
-	ioctl(fd, IOCTL_LED_OFF, 0);
+	ioctl(led_fd, IOCTL_LED_OFF, 0);
 }

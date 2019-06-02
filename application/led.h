@@ -14,7 +14,7 @@
 #define IOCTL_LED_ON		_IO(IOCTL_MAGIC_NUMBER, 0)
 #define IOCTL_LED_OFF		_IO(IOCTL_MAGIC_NUMBER, 1)
 
-int fd;
+int led_fd;
 
 void init_led ();
 void close_led();

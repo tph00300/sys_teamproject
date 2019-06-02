@@ -14,7 +14,7 @@
 
 #define GPIO23 23 // BCM 23
 
-#define IOCTL_MAGIC_NUMBER 'k'
+#define IOCTL_MAGIC_NUMBER 'H'
 #define IOCTL_GAS_READ _IOR(IOCTL_MAGIC_NUMBER, 0, int)
 
 int gas_device_open(struct inode *inode, struct file *filp)

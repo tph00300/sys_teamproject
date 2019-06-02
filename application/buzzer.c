@@ -11,6 +11,8 @@
 #include<sys/ioctl.h>
 #include<fcntl.h>
 
+#include "buzzer.h"
+
 #define NUM 100
 #define WRITE _IOW(NUM, 1, int)
 

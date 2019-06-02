@@ -1,5 +1,5 @@
-simpleMain : buzzer.o flame.o gas.o main.o
-	gcc -o simpleMain buzzer.o flame.o gas.o main.o -lwiringPi
+simpleMain : buzzer.o flame.o gas.o led.o main.o
+	gcc -o simpleMain buzzer.o flame.o gas.o led.o main.o -lwiringPi
 
 buzzer.o : buzzer.c
 	gcc -c buzzer.c -lwiringPi
