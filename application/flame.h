@@ -6,12 +6,14 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
+#include "flmae.h"
+
 #define CS_MCP3008 10 
 #define SPI_CHANNEL 0 
 #define SPI_SPEED 1000000
 
 int init_MCP3008 (void);
-int read_flame(int adcChannel);
-//int read_MCP3008(unsigned char adcChannel);
+int read_flame();
+int read_MCP3008(unsigned char adcChannel);
 
 #endif

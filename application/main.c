@@ -41,6 +41,7 @@ int main ()
 		}
 	}
 
+
 	//check flame
 	printf("check flame\n");
 	printf("init_MCP3008\n");
@@ -54,8 +55,34 @@ int main ()
 
 	for(int i = 0; i < 25; i++)
 	{
-		int result = read_flame(0);
+		int result = read_flame();
 		printf("flame result : %d\n", result);
+	}
+
+
+	//check gas
+	printf("check gas\n");
+	printf("init_gas\n");
+	check = init_gas();
+
+	if(check != 0)
+	{
+		printf("end program(ERR)\n");
+		return 0;
+	}
+
+	for(int i = 0; i < 25; i++)
+	{
+		int result = read_gas();
+		printf("gas result : %d\n", result);
+	}
+
+	check = close_gas();
+
+	if(check != 0)
+	{
+		printf("end program(ERR)\n");
+		return 0;
 	}
 	
 	return 0;

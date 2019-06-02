@@ -19,8 +19,6 @@
 */
 int init_MCP3008 (void)
 {
-	int flame_adcChannel = 0;
-
 	if(wiringPiSetup() == -1) return 1;
 	if(wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) return 1;
 
@@ -36,19 +34,20 @@ int init_MCP3008 (void)
 ** 1 = flame NOT exist , 0 = flame exist
 ** use this function will be used in main program with while(1) to check flame signal consistently
 */
-int read_flame(int adcChannel) 
+int read_flame() 
 {	
-	/*
-	int flame_adcValue = 0;
-       	flame_adcValue = read_MCP3008(adcChannel);
-	flame_adcValue *= 3.3/1024;
+	
+	int adcValue = 0;
+	int adcChannel = 0;
+
+    adcValue = read_MCP3008(adcChannel)*3.3/1024;
 	// printf("adc0 Value = %u\n", adcValue);
+    sleep(1);
 
-	return flame_adcValue;
-	*/
+	return adcValue;
 
-	int adcValue =0;
 
+	/*
 	unsigned char buff[3];
 
 	buff[0] = 1;
@@ -62,6 +61,7 @@ int read_flame(int adcChannel)
 	digitalWrite(CS_MCP3008,1);
 
 	return adcValue*3.3/1024;
+	*/
 }
 
 
@@ -70,7 +70,6 @@ int read_flame(int adcChannel)
 ** return 'adcValue' digital siganl conveted by MCP3008 module
 ** this function will be used in 'read_flame' function
 */
-/*
 int read_MCP3008(unsigned char adcChannel)
 {
 	unsigned char buff[3];
@@ -91,4 +90,3 @@ int read_MCP3008(unsigned char adcChannel)
 	
 	return adcValue;
 }
-*/
