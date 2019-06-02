@@ -92,6 +92,21 @@ int check[3] = {0, 0, 0}; // loop1 X, loop3 X, loop4 X
 
 void* loop1(void *data) // flame, gas
 {
+
+	for(int i=0; i<10; i++){
+		if(i%2 == 0){
+			string[2] = '0';
+			check[0] = 1;
+		}
+		else
+		{
+			string[2] = '1';
+			check[0] = 1;
+		}
+
+		sleep(2);
+	}
+	/*
 	start_flame();
 	start_gas();
 	
@@ -121,6 +136,8 @@ void* loop1(void *data) // flame, gas
 	}
 
 	printf("ENDWHILE\n");
+	*/
+
 	/*
 
 		pthread_mutex_lock(&mutex);
@@ -191,12 +208,18 @@ void* loop2(void *data) // socket
 
 void* loop3(void *data) // iBeacon
 {
+	while(1)
+	{
 
+	}
 }
 
 void* loop4(void *data) // PIR
 {
+	while(1)
+	{
 
+	}
 }
 
 int main(int argc, char *argv[])

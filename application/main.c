@@ -83,6 +83,7 @@ int main ()
 
 	close_gas();
 	*/
+
 	//check led
 	printf("check led\n");
 	printf("init_led");
@@ -103,6 +104,7 @@ int main ()
 	off_led();
 	sleep(2);
 	
+	//check pir
 	printf("check pir\n");
 	printf("init pir\n");
 	int check=init_pir();
