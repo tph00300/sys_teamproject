@@ -3,19 +3,19 @@
 
 int main ()
 {
-	printf("init_buzzer");
+	printf("init_buzzer\n");
 	int check = init_buzzer();
 
 	if(check != 0)
 	{
-		printf("end program(ERR)\n")
+		printf("end program(ERR)\n");
 		return 0;
 	}
 
 	while(1)
 	{	
 		int n;
-		printf("input : ")
+		printf("input : ");
 		scanf("%d", &n);
 
 		if(n == 0)
@@ -26,7 +26,7 @@ int main ()
 
 		else if (n == 1)
 		{
-			printf("off_buzzer");
+			printf("off_buzzer\n");
 			off_buzzer();
 		}
 

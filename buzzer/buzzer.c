@@ -23,11 +23,13 @@ int init_buzzer()
 
 void on_buzzer()
 {
-	ioctl(buzzer_fd, WRITE, '0');
+	char buf[10] ="0";
+	ioctl(buzzer_fd, WRITE, buf);
 
 }
 
 void off_buzzer()
 {
-	ioctl(buzzer_fd, WRITE, '1');
+	char buf[10] ="1";
+	ioctl(buzzer_fd, WRITE, buf);
 }
