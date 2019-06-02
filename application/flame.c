@@ -9,6 +9,8 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
+#include "flame.h"
+
 #define CS_MCP3008 10 // wPi 10
 #define SPI_CHANNEL 0 
 #define SPI_SPEED 1000000
@@ -40,7 +42,7 @@ int read_flame()
 	int adcValue = 0;
 	int adcChannel = 0;
 
-    adcValue = read_MCP3008(adcChannel)*3.3/1024;
+    adcValue = read_MCP3008((unsigned char)adcChannel)*3.3/1024;
 	// printf("adc0 Value = %u\n", adcValue);
     sleep(1);
 

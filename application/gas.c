@@ -46,7 +46,7 @@ int init_gas(void)
 int read_gas(void)
 {
 	int gas_value;
-	ioctl(gas_fd, IOCTL_GAS_READ, &gas_status);
+	ioctl(gas_fd, IOCTL_GAS_READ, &gas_value);
     //printf("gas : %d\n", gas_status);
 
     return gas_value;

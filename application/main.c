@@ -2,6 +2,7 @@
 
 #include "buzzer.h"
 #include "flame.h"
+#include "gas.h"
 
 int main ()
 {
@@ -9,7 +10,7 @@ int main ()
 	printf("check buzzer\n");
 	printf("init_buzzer\n");
 	int check = init_buzzer();
-
+/*
 	if(check != 0)
 	{
 		printf("end program(ERR)\n");
@@ -59,7 +60,7 @@ int main ()
 		printf("flame result : %d\n", result);
 	}
 
-
+*/
 	//check gas
 	printf("check gas\n");
 	printf("init_gas\n");

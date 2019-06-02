@@ -6,7 +6,7 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
-#include "flmae.h"
+#include "flame.h"
 
 #define CS_MCP3008 10 
 #define SPI_CHANNEL 0 
