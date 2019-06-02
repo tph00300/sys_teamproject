@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 
 #include "buzzer.h"
 #include "flame.h"
@@ -56,6 +57,7 @@ int main ()
 	{
 		int result = read_flame(0);
 		printf("flame result : %d\n", result);
+		sleep(1);
 	}
 	
 	return 0;

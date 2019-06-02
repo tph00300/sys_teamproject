@@ -1,14 +1,15 @@
 simpleMain : buzzer.o flame.o main.o
-	gcc -o simpleMain buzzer.o flame.o main.o
+	gcc -o simpleMain buzzer.o flame.o main.o -lwiringPi
 
 buzzer.o : buzzer.c
-	gcc -c buzzer.c
+	gcc -c buzzer.c -lwiringPi
 
 flame.o : flame.c
 	gcc -c flame.c -lwiringPi
+	EXTRA
 
 main.o : main.c
-	gcc -c main.c
+	gcc -c main.c -lwiringPi
 
 clean :
 	rm *.o simpleMain
