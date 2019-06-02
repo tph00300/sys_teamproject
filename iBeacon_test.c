@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <stdlib.h> // strtol
 
 #include <wiringPi.h>
 #include <wiringSerial.h>
@@ -77,6 +78,20 @@ void* loop1(void *data)
 	}
 }
 
+void calc_dist (char* TxPower, char* RSSI)
+{
+	char *end;
+	int tx = strtol(TxPower, &end, 16);
+	tx = (int)(tx|0xffffff00u);
+	int rs = strtol(RSSI, &end, 10);
+	rs *= -1;
+
+	//int dist = 10^((tx-rs)/(10*2));
+
+	printf("tx = %d, rs= %d dist= %d\n", tx,rs,dist);
+
+}
+
 void* loop2(void *data)
 {
 	while(1)
@@ -122,15 +137,6 @@ void* loop2(void *data)
 		//fflush(stdout);
 	}
 
-}
-
-void calc_dist (char* TxPower, char* RSSI)
-{
-	char *end;
-	int tx = strtol(TxPower, &end, 10);
-	int rs = strtol(RSSI, &end, 10);
-
-	printf("tx = %d, rs= %d\n", tx,rs);
 }
 
 int main()
