@@ -10,12 +10,10 @@
 
 int main(int argc, char **argv) {
 	int fd = open("/dev/buzzer_device", O_RDWR);
-	
 	if (fd < 0) {
 		printf("error\n");
 		return 0;
 	}
-	
 	printf("open\n");
 	char buf[100];
 	if (argc == 1) {

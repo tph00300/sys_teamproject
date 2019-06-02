@@ -1,11 +1,11 @@
-KERNELDIR = /lib/modules/4.14.98-v7+/build
+KERNELDIR = /lib/modules/$(shell uname -r)/build
 
 obj-m := buzzer_device.o
 
 PWD := $(shell pwd)
 
-all :
-	make -C $(KERNELDIR) M=$(PWD) modules
+module:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 
-clean :
-	make -C $(KERNELDIR) M=$(PWD) clean
+clean:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
