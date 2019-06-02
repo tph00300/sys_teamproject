@@ -34,5 +34,10 @@ void on_led()
 
 void off_led()
 {
+<<<<<<< HEAD
 	ioctl(led_fd, IOCTL_LED_OFF, 0);
 }
+=======
+	ioctl(fd, IOCTL_LED_OFF, 0);
+}
+>>>>>>> f269bcf199179a62ef37a78ad03ccd8d514a20bf
