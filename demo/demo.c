@@ -11,6 +11,11 @@
 #include <unistd.h> // sleep
 #include <errno.h>
 
+#include <wiringPi.h>
+#include <wiringSerial.h>
+
+#include <math.h>
+
 #include <pthread.h>
 
 #include "buzzer.h"
@@ -24,6 +29,13 @@
 char line[MAXLINE], sendline[MAXLINE], recvline[MAXLINE+1];
 int n, size, comp, addr_size;
 pid_t fork_ret;
+
+char TxPower[3];
+char RSSI[4];
+
+int fd;
+
+char buffer[100];
 
 static int s;
 
@@ -143,7 +155,7 @@ int fire = 0;
 
 void* loop1(void *data) // flame, gas
 {
-
+	/*
 	for(int i=0; i<10; i++){
 		if(i%2 == 0){
 			string[2] = '1';
@@ -157,14 +169,15 @@ void* loop1(void *data) // flame, gas
 
 		sleep(2);
 	}
-	/*
+	*/
+	
 	start_flame();
 	start_gas();
 	
 	int flame_result = 1;
 	int gas_result = 0;
 
-	while(1)
+	while(fire == 0)
 	{
 		flame_result = read_flame();
 		//printf("flame result : %d\n", flame_result);
@@ -181,13 +194,11 @@ void* loop1(void *data) // flame, gas
 
 			start_buzzer();
 			start_led();
-
-			break;
 		}
 	}
 
 	printf("ENDWHILE\n");
-	*/
+	
 
 	/*
 
@@ -255,6 +266,9 @@ void* loop2(void *data) // socket
 			if(recvline[0] == '1')
 			{
 				fire = 1;
+				check[0] = 0;
+				check[1] = 0;
+				check[2] = 0;
 			}
 		}
 	}
@@ -264,7 +278,7 @@ void* loop2(void *data) // socket
 
 void* loop3(void *data) // iBeacon write
 {
-	void init_iBeacon();
+	//void init_iBeacon();
 
 	while(fire == 1)
 	{
@@ -300,7 +314,7 @@ void* loop4(void *data) // iBeacon read
 	while(fire == 1)
 	{
 		while(1)
-	{
+		{
 		if(serialGetchar(fd) == 'O')
 		{
 			char tmp[7];
@@ -334,7 +348,8 @@ void* loop4(void *data) // iBeacon read
 			{
 				printf("block\n");
 			}
-	}
+		}
+		}
 	}
 }
 
@@ -345,6 +360,8 @@ void* loop5(void *data) // PIR
 
 int main(int argc, char *argv[])
 {
+	void init_iBeacon();
+
 	//init server client
 	static struct sockaddr_in server_addr;
 	struct sigaction act;
@@ -386,7 +403,7 @@ int main(int argc, char *argv[])
 	thr_id = pthread_create(&p_thread[1], NULL, loop2, (void *)&a);
 	thr_id = pthread_create(&p_thread[2], NULL, loop3, (void *)&a);
 	thr_id = pthread_create(&p_thread[3], NULL, loop4, (void *)&a);
-	thr_id = pthread_create(&p_thread[4], NULL, loop4, (void *)&a);
+	thr_id = pthread_create(&p_thread[4], NULL, loop5, (void *)&a);
 	
 
 	pthread_join(p_thread[0], (void *) &status);
@@ -398,5 +415,6 @@ int main(int argc, char *argv[])
 	status = pthread_mutex_destroy(&mutex);
 	printf("code = %d", status);
 	printf("programing is end");
+	
 	return 0;
 }

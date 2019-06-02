@@ -107,7 +107,7 @@ int main ()
 	//check pir
 	printf("check pir\n");
 	printf("init pir\n");
-	int check=init_pir();
+	check=init_pir();
 	if(check!=0)
 	{
 		printf("end error\n");
