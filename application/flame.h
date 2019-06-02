@@ -11,7 +11,7 @@
 #define SPI_SPEED 1000000
 
 int init_MCP3008 (void);
-int read_flame(unsigned char adcChannel);
-int read_MCP3008(unsigned char adcChannel);
+int read_flame(int adcChannel);
+//int read_MCP3008(unsigned char adcChannel);
 
 #endif

@@ -54,7 +54,7 @@ int main ()
 
 	for(int i = 0; i < 25; i++)
 	{
-		int result = read_flame(unsigned char adcChannel);
+		int result = read_flame(0);
 		printf("flame result : %d\n", result);
 	}
 	

@@ -1,4 +1,4 @@
-simpleMain : buzzer.o main.o
+simpleMain : buzzer.o flame.o main.o
 	gcc -o simpleMain buzzer.o flame.o main.o
 
 buzzer.o : buzzer.c
