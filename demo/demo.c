@@ -99,64 +99,17 @@ void start_led()
 	on_led();
 }
 
-/*
-void init_iBeacon()
-{
-	// initialize 'HM-10'		
-	printf("AT+RENEW\n"); // Factoy reset
-	serialPuts(fd, "AT+RENEW\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-
-	printf("AT+RESET\n"); // Reboot
-	serialPuts(fd, "AT+RESET\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-
-	printf("AT\n"); // waiting OK mesg
-	serialPuts(fd, "AT\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-
-	printf("AT+IBEA1\n"); // iBeacon mode
-	serialPuts(fd, "AT+IBEA1\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-
-	printf("AT+MODE2\n"); // Set device as 'remote control code' (it can use AT command after pairing)
-	serialPuts(fd, "AT+MODE2\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-
-	// set and check ROLE1 and IMME1 to use AT+DISI? command
-	printf("AT+ROLE1\n"); // Set Device as 'Central'
-	serialPuts(fd, "AT+ROLE1\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-
-	printf("AT+IMME1\n"); // Set operation type as 'Not immedately' 
-	serialPuts(fd, "AT+IMME1\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-	
-	printf("AT+IMME?\n");
-	serialPuts(fd, "AT+IMME?\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-	
-	printf("AT+ROLE?\n");
-	serialPuts(fd, "AT+ROLE?\0");
-	serialPuts(fd, "\r\n");
-	sleep(2);
-}
-*/
-
 char string[8] = "0 1\n"; // NO FIRE
 int check[3] = {0, 0, 0}; // loop1 X, loop3 X, loop5 X
 int fire = 0;
 
 void* loop1(void *data) // flame, gas
 {
+
+	while(1)
+	{
+		fire =1;
+	}
 	/*
 	for(int i=0; i<10; i++){
 		if(i%2 == 0){
@@ -173,6 +126,7 @@ void* loop1(void *data) // flame, gas
 	}
 	*/
 	
+	/*
 	start_flame();
 	start_gas();
 	
@@ -205,7 +159,7 @@ void* loop1(void *data) // flame, gas
 	}
 
 	printf("ENDWHILE\n");
-	
+	*/
 
 	/*
 
