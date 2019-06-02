@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <wiringPi.h>
 
-#define D0 22
+#define D0 22 //BCM
 
 int main()
 {

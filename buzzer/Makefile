@@ -1,11 +1,11 @@
-KERNELDIR = /lib/modules/4.14.98-v7+/build
+simpleMain : buzzer.o main.o
+	gcc -o simpleMain buzzer.o main.o
 
-obj-m := buzzer_device.o
+buzzer.o : buzzer.c
+	gcc -c buzzer.c
 
-PWD := $(shell pwd)
-
-all :
-	make -C $(KERNELDIR) M=$(PWD) modules
+main.o : main.c
+	gcc -c main.c
 
 clean :
-	make -C $(KERNELDIR) M=$(PWD) clean
+	rm *.o simpleMain
