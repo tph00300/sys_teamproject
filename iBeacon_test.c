@@ -86,7 +86,7 @@ void calc_dist (char* TxPower, char* RSSI)
 	int rs = strtol(RSSI, &end, 10);
 	rs *= -1;
 
-	//int dist = 10^((tx-rs)/(10*2));
+	int dist = 10^((tx-rs)/(10*2));
 
 	printf("tx = %d, rs= %d dist= %d\n", tx,rs,dist);
 
@@ -96,7 +96,7 @@ void* loop2(void *data)
 {
 	while(1)
 	{
-		
+		/*	
 		if(serialGetchar(fd) == 'O')
 		{
 			char tmp[7];
@@ -131,10 +131,11 @@ void* loop2(void *data)
 				printf("block\n");
 			}
 		}
+		*/
 		
 
-		//putchar (serialGetchar (fd));
-		//fflush(stdout);
+		putchar (serialGetchar (fd));
+		fflush(stdout);
 	}
 
 }

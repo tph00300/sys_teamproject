@@ -23,10 +23,9 @@ int read_MCP3008(unsigned char adcChannel)
 	buff[2] = 0;
 
 	digitalWrite(CS_MCP3008, 0);
-
 	wiringPiSPIDataRW(SPI_CHANNEL, buff, 3);
 
-	buff[1] = 0x0F & buff[1];
+	//buff[1] = 0x0F & buff[1];
 	adcValue = ((buff[1]&3) << 8) + buff[2];
 	
 	digitalWrite(CS_MCP3008, 1);
@@ -46,7 +45,7 @@ int main (void)
 
 	while(1)
 	{
-		adcValue = read_MCP3008(0)*3.3/1024;
+		adcValue = read_MCP3008(adcChannel)*3.3/1024;
 		printf("adc0 Value = %u\n", adcValue);
 		sleep(1);
 	}
