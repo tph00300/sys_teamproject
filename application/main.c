@@ -80,19 +80,12 @@ int main ()
 		printf("gas result : %d\n", result);
 	}
 
-	check = close_gas();
-
-	if(check != 0)
-	{
-		printf("end program(ERR)\n");
-		return 0;
-	}
-
+	close_gas();
 
 	//check led
 	printf("check led\n");
 	printf("init_led");
-	check = init_led();
+	init_led();
 
 	if(check != 0)
 	{

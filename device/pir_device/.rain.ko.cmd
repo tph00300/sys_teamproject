@@ -1,0 +1,1 @@
+cmd_/home/pi/sys_teamproject/device/pir_device/rain.ko := ld -r  -EL -T ./scripts/module-common.lds -T ./arch/arm/kernel/module.lds  --build-id  -o /home/pi/sys_teamproject/device/pir_device/rain.ko /home/pi/sys_teamproject/device/pir_device/rain.o /home/pi/sys_teamproject/device/pir_device/rain.mod.o ;  true

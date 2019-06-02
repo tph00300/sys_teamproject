@@ -33,19 +33,25 @@ void z_handler()
 
   return ;
 }
-
+char string[4] = "0 1";
+int check = 1;
 void* loop1(void *data)
 {
-	pthread_mutex_lock(&mutex);
+	while(1)
+	{
+		pthread_mutex_lock(&mutex);
 
-	printf("LOOP 1 is free!");
-	printf("LOOP 1 is free!");
-	printf("LOOP 1 is free!");
+		printf("LOOP 1 is free!");
+		printf("string : %s", string);
+		string[2] = '0'; 
+		check = 0;
+		printf("string : %s", string);
 
-	pthread_mutex_unlock(&mutex);
+		pthread_mutex_unlock(&mutex);
 	
-	sleep(3);
+		sleep(2);
 
+	}
 }
 
 void* loop2(void *data)
@@ -54,10 +60,13 @@ void* loop2(void *data)
 	if(fork_ret > 0)
 	{
 		// 부모 프로세스는 키보드 입력을 서버로 송신
-		while(fgets(sendline, MAXLINE, stdin) != NULL)
+		//while(fgets(sendline, MAXLINE, stdin) != NULL)
+		while(check == 0)
 		{
-			size = strlen(sendline);
-			if(write(s, sendline, strlen(sendline)) != size)
+			//size = strlen(sendline);
+			size = strlen(string);
+			//if(write(s, sendline, strlen(sendline)) != size)
+			if(write(s, string, strlen(string)) != size)
 			{
 				printf("Error in write. \n");
 			}

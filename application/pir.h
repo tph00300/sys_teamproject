@@ -1,5 +1,5 @@
 #ifndef _PIR_H_
-#define _PIE_H_
+#define _PIR_H_
 
 #include<stdio.h> 
 #include<unistd.h> 
