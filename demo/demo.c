@@ -87,15 +87,66 @@ void start_led()
 	on_led();
 }
 
+void init_iBeacon()
+{
+	// initialize 'HM-10'		
+	printf("AT+RENEW\n"); // Factoy reset
+	serialPuts(fd, "AT+RENEW\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+
+	printf("AT+RESET\n"); // Reboot
+	serialPuts(fd, "AT+RESET\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+
+	printf("AT\n"); // waiting OK mesg
+	serialPuts(fd, "AT\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+
+	printf("AT+IBEA1\n"); // iBeacon mode
+	serialPuts(fd, "AT+IBEA1\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+
+	printf("AT+MODE2\n"); // Set device as 'remote control code' (it can use AT command after pairing)
+	serialPuts(fd, "AT+MODE2\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+
+	// set and check ROLE1 and IMME1 to use AT+DISI? command
+	printf("AT+ROLE1\n"); // Set Device as 'Central'
+	serialPuts(fd, "AT+ROLE1\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+
+	printf("AT+IMME1\n"); // Set operation type as 'Not immedately' 
+	serialPuts(fd, "AT+IMME1\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+	
+	printf("AT+IMME?\n");
+	serialPuts(fd, "AT+IMME?\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+	
+	printf("AT+ROLE?\n");
+	serialPuts(fd, "AT+ROLE?\0");
+	serialPuts(fd, "\r\n");
+	sleep(2);
+}
+
 char string[8] = "0 1\n"; // NO FIRE
-int check[3] = {0, 0, 0}; // loop1 X, loop3 X, loop4 X
+int check[3] = {0, 0, 0}; // loop1 X, loop3 X, loop5 X
+int fire = 0;
 
 void* loop1(void *data) // flame, gas
 {
 
 	for(int i=0; i<10; i++){
 		if(i%2 == 0){
-			string[2] = '0';
+			string[2] = '1';
 			check[0] = 1;
 		}
 		else
@@ -192,34 +243,104 @@ void* loop2(void *data) // socket
 				return 0;
 			}
 	
-			recvline[size] = '\0';
+			//recvline[size] = '\0';
+			recvline[size] = '\n';
 			if(strstr(recvline, escapechar)!=NULL) // 종료 문자열
 			{
 				write(s, escapechar, strlen(escapechar));
 				break;
 			}
 
-			printf("%s", recvline); // 화면 출력
+			//printf("%s", recvline); // 화면 출력
+			if(recvline[0] == '1')
+			{
+				fire = 1;
+			}
 		}
 	}
 	
 	close(s);
 }
 
-void* loop3(void *data) // iBeacon
+void* loop3(void *data) // iBeacon write
 {
-	while(1)
-	{
+	void init_iBeacon();
 
+	while(fire == 1)
+	{
+		printf("FOR LOOP\n");
+		pthread_mutex_lock(&mutex);
+		serialPuts(fd, "AT+DISI?\0");
+		serialPuts(fd, "\r\n");
+		pthread_mutex_unlock(&mutex);
+		sleep(3);
 	}
 }
 
-void* loop4(void *data) // PIR
+void calc_dist (char* TxPower, char* RSSI)
 {
-	while(1)
-	{
+	char *end;
+	int tx = strtol(TxPower, &end, 16);
+	tx = (int)(tx|0xffffff00u);
+	int rs = strtol(RSSI, &end, 10);
+	rs *= -1;
 
+	//int dist = 10^((tx-rs)/(10*2));
+
+	double D = 0;
+	int n=2;
+
+	double dist= pow(10,((tx-rs)/(20)));
+	printf("tx = %d, rs= %d dist= %.8f\n", tx,rs,dist);
+
+}
+
+void* loop4(void *data) // iBeacon read
+{
+	while(fire == 1)
+	{
+		while(1)
+	{
+		if(serialGetchar(fd) == 'O')
+		{
+			char tmp[7];
+			for(int i = 0; (i < 7)&&(serialDataAvail(fd) != -1); i++)
+			{
+				tmp[i] = serialGetchar(fd);
+			}
+
+			//if((tmp[6] != 'E')&&(tmp[6] != 'S'))
+			if(tmp[6] == ':')
+			{
+				for(int j = 0;serialDataAvail(fd) != -1; j++)
+				{
+					buffer[j] = serialGetchar(fd);			
+					if(buffer[j] == '\n') break;
+				}
+				printf("line\n");
+				printf("%s",buffer);
+				
+				TxPower[0] = buffer[50]; 
+				TxPower[1] = buffer[51];
+
+				RSSI[0] = buffer[67];
+				RSSI[1] = buffer[68];
+				RSSI[2] = buffer[69];
+
+				printf("TxPower: %s, RSSI: %s\n",TxPower, RSSI);
+				calc_dist(TxPower, RSSI);
+			}
+			else
+			{
+				printf("block\n");
+			}
 	}
+	}
+}
+
+void* loop5(void *data) // PIR
+{
+	
 }
 
 int main(int argc, char *argv[])
@@ -257,7 +378,7 @@ int main(int argc, char *argv[])
 	// end init
 
 	int thr_id;
-	pthread_t p_thread[4];
+	pthread_t p_thread[5];
 	int status;
 	int a = 1;
 
@@ -265,12 +386,14 @@ int main(int argc, char *argv[])
 	thr_id = pthread_create(&p_thread[1], NULL, loop2, (void *)&a);
 	thr_id = pthread_create(&p_thread[2], NULL, loop3, (void *)&a);
 	thr_id = pthread_create(&p_thread[3], NULL, loop4, (void *)&a);
+	thr_id = pthread_create(&p_thread[4], NULL, loop4, (void *)&a);
 	
 
 	pthread_join(p_thread[0], (void *) &status);
 	pthread_join(p_thread[1], (void *) &status);
 	pthread_join(p_thread[2], (void *) &status);
 	pthread_join(p_thread[3], (void *) &status);
+	pthread_join(p_thread[4], (void *) &status);
 
 	status = pthread_mutex_destroy(&mutex);
 	printf("code = %d", status);
