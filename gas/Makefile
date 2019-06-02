@@ -1,4 +1,4 @@
-KERNELDIR = /lib/modules/4.14.98-v7+/build
+KERNELDIR = /lib/modules/4.19.42-v7+/build
 
 obj-m := gas_device.o
 
