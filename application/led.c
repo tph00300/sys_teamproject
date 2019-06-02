@@ -15,11 +15,6 @@ void init_led ()
 {
 	led_fd = open("/dev/led_device", O_RDWR);
 
-	if(led_fd < 0)
-	{
-		return -1
-	}
-
 }
 
 void close_led()

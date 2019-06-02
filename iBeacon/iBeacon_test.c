@@ -8,6 +8,8 @@
 #include <wiringPi.h>
 #include <wiringSerial.h>
 
+#include <math.h>
+
 int ncount;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -100,7 +102,7 @@ void* loop2(void *data)
 {
 	while(1)
 	{
-		/*	
+			
 		if(serialGetchar(fd) == 'O')
 		{
 			char tmp[7];
@@ -135,11 +137,12 @@ void* loop2(void *data)
 				printf("block\n");
 			}
 		}
-		*/
 		
-
+		
+/*
 		putchar (serialGetchar (fd));
 		fflush(stdout);
+*/
 	}
 
 }

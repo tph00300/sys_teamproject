@@ -8,6 +8,7 @@
 
 int main ()
 {
+
 	// check buzzer
 	printf("check buzzer\n");
 	printf("init_buzzer\n");
