@@ -17,7 +17,5 @@
 
 int pir_fd;
 int init_pir();
-void on_pir();
-void off_pir();
-
+int read_pir();
 #endif

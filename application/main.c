@@ -10,7 +10,7 @@ int main ()
 {
 
 	// check buzzer
-	printf("check buzzer\n");
+	/*printf("check buzzer\n");
 	printf("init_buzzer\n");
 	int check = init_buzzer();
 
@@ -102,6 +102,31 @@ int main ()
 	sleep(2);
 	off_led();
 	sleep(2);
-	
+	*/
+	printf("check pir\n");
+	printf("init pir\n");
+	int check=init_pir();
+	if(check!=0)
+	{
+		printf("end error\n");
+		return 0;
+	}
+	int n=0,t=0,f=0;
+	while(1){
+		sleep(1);
+		int flag=read_pir();
+		if(flag==0)
+			t++;
+		else if(flag==1)
+			f++;
+		n++;
+		if(n>=30)
+		{
+			printf("%d%%\n",f*3);
+			n=0;
+			t=0;
+			f=0;
+		}
+	}
 	return 0;
 }

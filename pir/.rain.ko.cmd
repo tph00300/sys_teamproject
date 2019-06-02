@@ -1,0 +1,1 @@
+cmd_/home/pi/doc/sys_teamproject/pir/rain.ko := ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/pi/doc/sys_teamproject/pir/rain.ko /home/pi/doc/sys_teamproject/pir/rain.o /home/pi/doc/sys_teamproject/pir/rain.mod.o ;  true
