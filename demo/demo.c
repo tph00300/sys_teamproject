@@ -179,9 +179,10 @@ void* loop1(void *data) // flame, gas
 	int flame_result = 1;
 	int gas_result = 0;
 
-	while(fire == 0)
+	while(1)
 	{
-		flame_result = read_flame();
+		while(fire == 0) {
+			flame_result = read_flame();
 		//printf("flame result : %d\n", flame_result);
 		
 		//gas_result = read_gas();
@@ -199,6 +200,8 @@ void* loop1(void *data) // flame, gas
 
 			fire = 1;
 		}
+		}
+		
 	}
 
 	printf("ENDWHILE\n");
