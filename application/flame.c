@@ -1,6 +1,6 @@
 /*
-** flame_app.c 
-** wrtten by KimSeongHeon in 19/06/01
+** flame.c 
+** wrtten by KSH in 19/05/31
 ** based on flame_test.c  
 */
 
@@ -33,7 +33,7 @@ int init_MCP3008 (void)
 /*
 ** read flame sensor's analog signal using 'read_MCP3008' function
 ** return 'flame_adcValue' which is calculated digital signal
-** 1 = NO flame , 0 = YES flame
+** 1 = flame NOT exist , 0 = flame exist
 ** use this function will be used in main program with while(1) to check flame signal consistently
 */
 int read_flame(unsigned char adcChannel) 
