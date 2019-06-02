@@ -20,7 +20,7 @@ int gas_fd;
 
 int init_gas(void);
 int read_gas(void);
-int close_gas(void);
+void close_gas(void);
 
 
 #endif

@@ -28,12 +28,13 @@ int gas_fd;
 int init_gas(void)
 {
 	gas_fd = open("/dev/gas_device", O_RDONLY);
-
-	if(gas_fd == -1)
+	if(gas_fd < 0)
 	{
 		perror("failed open because ");
 		return 1;
 	}
+
+	return 0;
 }
 
 
@@ -56,7 +57,7 @@ int read_gas(void)
 /*
 ** close 'gas_device' 
 */
-int close_gas(void)
+void close_gas(void)
 {
 	close(gas_fd);
 }

@@ -3,6 +3,8 @@
 #include "buzzer.h"
 #include "flame.h"
 #include "gas.h"
+#include "led.h"
+#include "pir.h"
 
 int main ()
 {
@@ -72,7 +74,7 @@ int main ()
 		return 0;
 	}
 
-	for(int i = 0; i < 25; i++)
+	for(int i = 0; i < 20; i++)
 	{
 		int result = read_gas();
 		printf("gas result : %d\n", result);
@@ -85,6 +87,27 @@ int main ()
 		printf("end program(ERR)\n");
 		return 0;
 	}
+
+
+	//check led
+	printf("check led\n");
+	printf("init_led");
+	check = init_led();
+
+	if(check != 0)
+	{
+		printf("end program(ERR)\n");
+		return 0;
+	}
+
+	on_led();
+	sleep(2);
+	off_led();
+	sleep(2);
+	on_led();
+	sleep(2);
+	off_led();
+	sleep(2);
 	
 	return 0;
 }

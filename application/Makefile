@@ -10,6 +10,12 @@ flame.o : flame.c
 gas.o : gas.c
 	gcc -c gas.c -lwiringPi
 
+led.o : led.c
+	gcc -c led.c -lwiringPi
+
+pir.o : pir.c
+	gcc -c pir.c -lwiringPi
+
 main.o : main.c
 	gcc -c main.c -lwiringPi
 

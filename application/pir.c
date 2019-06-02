@@ -8,30 +8,37 @@
 #define READ _IOR( MY_S, 0, int )
 #define WRITE _IOW( MY_S, 1, int )
 
-int main(int argc, char **argv) {
-	int fd = open("/dev/ltk", O_RDWR);
-	if (fd < 0) {
-		printf("file not open\n");
-		return 0;
-	}
+int pir_fd;
 
-	
-	char buf[100]={0,};
-	int q[11]={0,};
-	int w[2]={0,},n=0,m=0;
-	while(1){
-		m++;
-		sleep(1);
-		ioctl(fd, READ, buf);
-		int flag=atoi(buf);
-		w[flag]++;
-		if(n==10)
-			n=0;
-		if(m>=10)
-			w[q[n]]--;
-		q[n]=flag;
-		n++;
-		printf("%d\n",w[1]*10);
+int init_pir(){
+	pir_fd = open("/dev/pir_device", O_RDWR);
+	if (pir_fd < 0) {
+		printf("file not open\n");
+		return 1;
 	}
 	return 0;
 }
+int read_pir(){
+
+	char buf[100]={0,};
+	ioctl(pir_fd,READ,buf);
+	return atoi(buf);
+}
+/*	int n=0,t=0,f=0;
+	while(1){
+		sleep(1);
+		ioctl(fd, READ, buf);
+		int flag=atoi(buf);
+		if(flag==0)
+			t++;
+		else if(flag==1)
+			f++;
+		n++;
+		if(n>=30)
+		{
+			printf("%d%%\n",f*3);
+			n=0;
+			t=0;
+			f=0;
+		}
+	}*/

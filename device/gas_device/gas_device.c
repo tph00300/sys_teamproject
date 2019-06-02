@@ -12,7 +12,7 @@
 #include <linux/slab.h> // for kmaloc()
 #include <linux/gpio.h>
 
-#define GPIO23 23
+#define GPIO23 23 // BCM 23
 
 #define IOCTL_MAGIC_NUMBER 'k'
 #define IOCTL_GAS_READ _IOR(IOCTL_MAGIC_NUMBER, 0, int)
