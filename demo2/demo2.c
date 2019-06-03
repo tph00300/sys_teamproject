@@ -148,7 +148,7 @@ void* loop3(void *data)
 {
 	printf("check pir\n");
 	printf("init pir\n");
-	check=init_pir();
+	int check=init_pir();
 	if(check!=0)
 	{
 		printf("end error\n");
@@ -176,12 +176,12 @@ void* loop3(void *data)
 
 int main()
 {
-	int result;
+	int result = 1;
 
 	//check flame
 	printf("check flame\n");
 	//printf("init_MCP3008\n");
-	check = init_MCP3008();
+	int check = init_MCP3008();
 
 	if(check != 0)
 	{
@@ -220,7 +220,7 @@ int main()
 	{
 		//on buzzer
 		printf("on_buzzer\n");
-		int check = init_buzzer();
+		check = init_buzzer();
 		if(check != 0)
 		{
 			printf("end program(ERR)\n");
@@ -255,14 +255,15 @@ int main()
 		thr_id = pthread_create(&p_thread[0], NULL, loop1, (void *)&a);
 		thr_id = pthread_create(&p_thread[1], NULL, loop2, (void *)&a);
 		thr_id = pthread_create(&p_thread[2], NULL, loop3, (void *)&a);
+	
+		pthread_join(p_thread[0], (void *) &status);
+		pthread_join(p_thread[1], (void *) &status);
+
+		status = pthread_mutex_destroy(&mutex);
+		printf("code = %d", status);
+		printf("programing is end");
 	}
 	
 
-	pthread_join(p_thread[0], (void *) &status);
-	pthread_join(p_thread[1], (void *) &status);
-
-	status = pthread_mutex_destroy(&mutex);
-	printf("code = %d", status);
-	printf("programing is end");
 	return 0;
 }
